@@ -12,7 +12,7 @@
         }
         
         body {
-            background: linear-gradient(135deg, #1B2B40 0%, #23497A 50%, #3064A5 100%);
+            background: linear-gradient(135deg, #060B12 0%, #0E1A2B 35%, #1B2B40 65%, #23497A 85%, #3064A5 100%);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
@@ -38,7 +38,7 @@
         .bubble {
             position: absolute;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(255, 255, 255, 0.02);
             animation: float 8s infinite ease-in-out;
         }
         .bubble:nth-child(1) { width: 100px; height: 100px; top: 20%; left: 15%; animation-delay: 0s; }
@@ -64,7 +64,7 @@
             width: 100px;
             height: 100px;
             animation: pulse 2s infinite ease-in-out;
-            filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.8));
+            filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.9));
         }
         
         .pulse-ring {
@@ -86,11 +86,11 @@
             letter-spacing: 2px;
             margin-bottom: 10px;
             text-align: center;
-            text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
             animation: fadeIn 1.5s ease-out;
         }
         .tagline {
-            color: rgba(200, 230, 255, 0.85);
+            color: rgba(180, 220, 255, 0.85);
             font-size: 18px;
             font-weight: 300;
             margin-bottom: 40px;
@@ -103,7 +103,7 @@
         .progress-container {
             width: 280px;
             height: 8px;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 4px;
             overflow: hidden;
             margin-top: 20px;
@@ -166,7 +166,7 @@
     <script>
         setTimeout(function() {
             document.querySelector('.loading-text').textContent = "Initialization complete!";
-            document.body.style.background = "linear-gradient(135deg, #0a0f1c 0%, #1B2B40 50%, #23497A 100%)";
+            document.body.style.background = "linear-gradient(135deg, #020306 0%, #060B12 35%, #0E1A2B 70%, #1B2B40 100%)";
             
             setTimeout(function() {
                 document.querySelector('.splash-container').innerHTML = `
