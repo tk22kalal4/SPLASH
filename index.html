@@ -1,106 +1,451 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Medical App Splash Screen</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MediCare+ — Splash</title>
+<meta name="theme-color" content="#162433" />
+
 <style>
-  /* Reset & Background */
-  body {
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(135deg, #e0f7fa, #ffffff);
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Segoe UI', sans-serif;
+  /* =========================
+     Variables & base layout
+     ========================= */
+  :root{
+    --bg-1: #0f1720;        /* very dark fallback */
+    --primary-dark: #162433; /* user primary */
+    --primary: #2c5281;     /* user accent */
+    --accent-glow: rgba(44,82,129,0.14);
+    --glass: rgba(255,255,255,0.04);
+    --glass-2: rgba(255,255,255,0.02);
+    --muted: rgba(255,255,255,0.68);
+    --radius: 18px;
   }
 
-  /* Splash Container */
-  .splash {
-    text-align: center;
-    animation: fadeOut 1s ease-in-out forwards;
-    animation-delay: 3s; /* Hide after 3s */
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: radial-gradient(1200px 600px at 10% 20%, rgba(44,82,129,0.06), transparent 6%),
+                radial-gradient(1000px 500px at 90% 80%, rgba(22,36,51,0.06), transparent 6%),
+                linear-gradient(180deg, var(--primary-dark) 0%, #0b1220 100%);
+    color: white;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    overflow:hidden;
   }
 
-  /* Heart Icon */
-  .heart {
-    width: 80px;
-    height: 80px;
-    background-color: #e91e63;
-    position: relative;
-    transform: rotate(-45deg);
-    animation: heartbeat 1.2s infinite;
-    margin: 0 auto;
-  }
-  .heart::before,
-  .heart::after {
-    content: "";
-    width: 80px;
-    height: 80px;
-    background-color: #e91e63;
-    border-radius: 50%;
-    position: absolute;
-  }
-  .heart::before {
-    top: -40px;
-    left: 0;
-  }
-  .heart::after {
-    left: 40px;
-    top: 0;
+  /* container */
+  .splash-root{
+    position:fixed;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+    pointer-events:all;
   }
 
-  /* App Title */
-  .title {
-    font-size: 1.5rem;
-    color: #00796b;
-    margin-top: 20px;
-    animation: fadeIn 1.2s ease-in-out;
+  /* canvas background occupies full area */
+  #bgCanvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    display:block;
   }
 
-  /* Animations */
-  @keyframes heartbeat {
-    0%, 100% { transform: scale(1) rotate(-45deg); }
-    14% { transform: scale(1.3) rotate(-45deg); }
-    28% { transform: scale(1) rotate(-45deg); }
-    42% { transform: scale(1.3) rotate(-45deg); }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeOut {
-    to { opacity: 0; visibility: hidden; }
+  /* central panel */
+  .panel{
+    position:relative;
+    z-index:5;
+    width:min(820px, 92vw);
+    max-width:1100px;
+    display:flex;
+    gap:28px;
+    align-items:center;
+    padding:28px;
+    border-radius:var(--radius);
+    backdrop-filter: blur(8px) saturate(120%);
+    -webkit-backdrop-filter: blur(8px) saturate(120%);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    box-shadow:
+      0 12px 40px rgba(3,6,10,0.6),
+      inset 0 1px 0 rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.03);
+    align-self:center;
+    transition: transform 700ms cubic-bezier(.2,.9,.2,1), opacity 450ms ease;
+    transform-origin:center;
   }
 
-  /* Main App (hidden initially) */
-  .main-app {
-    display: none;
-    text-align: center;
+  /* left: logo area */
+  .logo-wrap{
+    flex:0 0 160px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:12px;
+    border-radius:14px;
+    background: linear-gradient(180deg, rgba(44,82,129,0.06), rgba(22,36,51,0.04));
+    box-shadow: 0 6px 18px rgba(44,82,129,0.09);
+  }
+
+  svg.logo{
+    width:120px;
+    height:120px;
+    display:block;
+    filter: drop-shadow(0 8px 26px rgba(44,82,129,0.18));
+  }
+
+  /* right: text area */
+  .content{
+    flex:1;
+    min-width:0;
+  }
+  .app-title{
+    font-size:1.6rem;
+    letter-spacing:0.6px;
+    margin:0 0 6px 0;
+    color: white;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .app-sub{
+    margin:0;
+    color:var(--muted);
+    font-size:0.95rem;
+    line-height:1.25;
+  }
+
+  /* fancy tagline */
+  .tag{
+    margin-top:12px;
+    font-weight:600;
+    color:var(--primary);
+    display:inline-block;
+    background: linear-gradient(90deg, rgba(44,82,129,0.12), rgba(22,36,51,0.02));
+    padding:8px 12px;
+    border-radius:12px;
+    box-shadow: 0 4px 18px rgba(44,82,129,0.06);
+    font-size:0.92rem;
+  }
+
+  /* progress bar */
+  .progress{
+    margin-top:18px;
+    width:100%;
+    height:12px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,0.03);
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    width:0%;
+    border-radius:999px;
+    background: linear-gradient(90deg, var(--primary), #4fb0ff);
+    box-shadow: 0 6px 22px rgba(44,82,129,0.18), inset 0 -6px 18px rgba(255,255,255,0.03);
+    transition: width 350ms cubic-bezier(.2,.9,.2,1);
+    position:relative;
+  }
+  .progress-fill::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background: linear-gradient(120deg, rgba(255,255,255,0.06) 0 10%, rgba(255,255,255,0) 30%);
+    mix-blend-mode: overlay;
+  }
+  .progress-meta{
+    display:flex;
+    justify-content:space-between;
+    margin-top:8px;
+    font-size:0.84rem;
+    color:var(--muted);
+  }
+
+  /* subtle glowing rings */
+  .halo {
+    position:absolute;
+    z-index:2;
+    filter: blur(36px);
+    opacity:0.14;
+    pointer-events:none;
+  }
+
+  /* Exit animation */
+  .panel.hide {
+    opacity:0;
+    transform: translateY(-18px) scale(.98);
+    pointer-events:none;
+  }
+
+  /* small screens */
+  @media (max-width:720px){
+    .panel{flex-direction:column; gap:18px; padding:20px;}
+    .logo-wrap{flex:0 0 auto}
+    .app-title{font-size:1.25rem}
+  }
+
+  /* reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    .panel, .progress-fill, svg.logo * { transition: none !important; animation: none !important; }
   }
 </style>
 </head>
 <body>
 
-<div class="splash">
-  <div class="heart"></div>
-  <div class="title">MediCare+</div>
-</div>
+<div class="splash-root" role="dialog" aria-label="Loading MediCare Plus" aria-live="polite">
+  <canvas id="bgCanvas" aria-hidden="true"></canvas>
 
-<div class="main-app">
-  <h1>Welcome to MediCare+</h1>
-  <p>Your health, our priority.</p>
+  <!-- decorative halos -->
+  <div class="halo" style="width:420px;height:420px;left:8%;top:8%;background:radial-gradient(circle,#2c5281 0%, transparent 40%)"></div>
+  <div class="halo" style="width:520px;height:520px;right:6%;bottom:6%;background:radial-gradient(circle,#162433 0%, transparent 36%)"></div>
+
+  <div class="panel" id="splashPanel">
+    <div class="logo-wrap" aria-hidden="true">
+      <!-- SVG logo: medical cross + stylized stethoscope. Stroke draws on load -->
+      <svg class="logo" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="MediCare logo">
+        <defs>
+          <linearGradient id="g" x1="0" x2="1">
+            <stop offset="0" stop-color="#2c5281"/>
+            <stop offset="1" stop-color="#5fb0ff"/>
+          </linearGradient>
+          <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+
+        <!-- circle background -->
+        <circle cx="80" cy="80" r="56" fill="url(#g)" opacity="0.08" />
+
+        <!-- cross -->
+        <g transform="translate(28,18)">
+          <path id="cross" d="M36 6 H60 a4 4 0 0 1 4 4 v24 a4 4 0 0 1 -4 4 H36 v24 a4 4 0 0 1 -4 4 H12 a4 4 0 0 1 -4 -4 V38 H-16 a4 4 0 0 1 -4 -4 V10 a4 4 0 0 1 4 -4 H8 V-8 a4 4 0 0 1 4 -4 h12 a4 4 0 0 1 4 4 v18 z" 
+            fill="none" stroke="url(#g)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" transform="translate(24,24)"/>
+        </g>
+
+        <!-- stethoscope loop -->
+        <path id="stetho" d="M40 112 C48 90, 90 80, 110 64 C132 46, 130 26, 112 16" fill="none" stroke="url(#g)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0.98"/>
+
+        <!-- chest piece -->
+        <g transform="translate(104,62)">
+          <circle cx="6" cy="6" r="6" fill="#0b1220" stroke="url(#g)" stroke-width="3" />
+          <circle cx="6" cy="6" r="2" fill="#2c5281"/>
+        </g>
+
+        <!-- inner subtle mask for glow -->
+        <g filter="url(#softGlow)">
+          <circle cx="80" cy="80" r="44" fill="none" stroke="#2c5281" stroke-opacity="0.022" stroke-width="28"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="content">
+      <h1 class="app-title">
+        <span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:linear-gradient(180deg,var(--primary),#4fb0ff);box-shadow:0 6px 18px rgba(44,82,129,0.26), 0 0 18px rgba(44,82,129,0.12)"></span>
+        MediCare+
+      </h1>
+
+      <p class="app-sub">Clinical assistant • Secure records • Intelligent triage</p>
+
+      <div class="tag" aria-hidden="true">Dark-Fantasy • Pro Health UX</div>
+
+      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <div class="progress-meta">
+        <div id="statusText">Initializing...</div>
+        <div id="pctText">0%</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-  // Show main app after splash
-  setTimeout(() => {
-    document.querySelector('.splash').style.display = 'none';
-    document.querySelector('.main-app').style.display = 'block';
-  }, 4000); // Splash lasts 4 seconds
-</script>
+/* =========================
+   Background particles: light, nebula-like
+   ========================= */
+(function(){
+  const canvas = document.getElementById('bgCanvas');
+  const ctx = canvas.getContext('2d', { alpha: true });
+  let w = canvas.width = innerWidth;
+  let h = canvas.height = innerHeight;
+  let particles = [];
+  const particleCount = Math.max(28, Math.floor((w*h)/90000)); // scale with screen size
 
+  function rand(min, max){ return Math.random()*(max-min)+min; }
+
+  function initParticles(){
+    particles = [];
+    for(let i=0;i<particleCount;i++){
+      particles.push({
+        x: rand(0,w),
+        y: rand(0,h),
+        vx: rand(-0.12,0.12),
+        vy: rand(-0.06,0.06),
+        r: rand(6, 48),
+        o: rand(0.04, 0.22),
+        hue: rand(200, 240)
+      });
+    }
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    // faint gradient overlay
+    const g = ctx.createLinearGradient(0,0,w,h);
+    g.addColorStop(0, 'rgba(12,20,28,0.12)');
+    g.addColorStop(1, 'rgba(3,6,10,0.12)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0,0,w,h);
+
+    particles.forEach(p=>{
+      p.x += p.vx;
+      p.y += p.vy;
+      if(p.x < -100) p.x = w+100;
+      if(p.x > w+100) p.x = -100;
+      if(p.y < -100) p.y = h+100;
+      if(p.y > h+100) p.y = -100;
+
+      const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+      grad.addColorStop(0, `hsla(${p.hue},70%,60%,${p.o})`);
+      grad.addColorStop(0.4, `hsla(${p.hue},70%,50%,${p.o*0.6})`);
+      grad.addColorStop(1, `rgba(10,14,20,0)`);
+      ctx.beginPath();
+      ctx.fillStyle = grad;
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fill();
+    });
+  }
+
+  let running = true;
+  function loop(){
+    if(!running) return;
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  // responsiveness
+  addEventListener('resize', ()=> {
+    w = canvas.width = innerWidth;
+    h = canvas.height = innerHeight;
+    initParticles();
+  });
+
+  // init
+  initParticles();
+  loop();
+
+  // expose for debug if needed
+  window.__splash_bg = { stop: ()=> running=false, start: ()=> { running=true; loop(); } };
+})();
+
+/* =========================
+   Logo stroke draw animation
+   ========================= */
+(function(){
+  const svg = document.querySelector('svg.logo');
+  if(!svg) return;
+  // For stroke-draw effect, animate stroke-dasharray on paths
+  const paths = Array.from(svg.querySelectorAll('path, circle'));
+  paths.forEach((p, idx)=>{
+    try{
+      const length = p.getTotalLength ? p.getTotalLength() : (p.getBBox().width + p.getBBox().height);
+      p.style.strokeDasharray = length;
+      p.style.strokeDashoffset = length;
+      p.getBoundingClientRect(); // force reflow
+      // stagger
+      const delay = 200 + idx*120;
+      p.style.transition = `stroke-dashoffset 720ms cubic-bezier(.2,.9,.2,1) ${delay}ms, opacity 480ms linear ${delay}ms`;
+      setTimeout(()=> p.style.strokeDashoffset = '0', delay);
+    }catch(e){}
+  });
+
+  // gentle breathing (scale) on the whole svg after draw
+  setTimeout(()=> {
+    svg.animate([
+      { transform: 'scale(1)' }, { transform: 'scale(1.04)' }, { transform: 'scale(1)' }
+    ], { duration: 2400, iterations: Infinity, easing: 'ease-in-out' });
+  }, 1200);
+})();
+
+/* =========================
+   Simulated loading / progress logic
+   Replace with real app init hooks: updateProgress(percentage, message)
+   ========================= */
+(function(){
+  const fill = document.getElementById('progressFill');
+  const pct = document.getElementById('pctText');
+  const status = document.getElementById('statusText');
+  const panel = document.getElementById('splashPanel');
+
+  let prog = 0;
+  let lastMsg = '';
+  // realistic staged loader
+  const stages = [
+    { p: randInt(6,10), t: "Loading interface" },
+    { p: randInt(16,28), t: "Initializing secure storage" },
+    { p: randInt(30,48), t: "Syncing clinical models" },
+    { p: randInt(50,68), t: "Preparing offline cache" },
+    { p: randInt(70,84), t: "Applying user preferences" },
+    { p: randInt(86,96), t: "Finalizing startup" }
+  ];
+
+  let idx = 0;
+  function randInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+
+  function step(){
+    const target = (idx < stages.length) ? stages[idx].p : 100;
+    const msg = (idx < stages.length) ? stages[idx].t : "Launching";
+    if(lastMsg !== msg){ status.textContent = msg; lastMsg = msg; }
+    // ease towards target
+    prog = Math.min(100, prog + (Math.random()*2.8 + 1.2));
+    if(prog >= target){
+      idx++;
+    }
+    fill.style.width = Math.round(prog) + '%';
+    pct.textContent = Math.round(prog) + '%';
+    fill.parentElement.setAttribute('aria-valuenow', Math.round(prog));
+
+    if(prog < 100){
+      setTimeout(step, 160 + Math.random()*220);
+    } else {
+      // small finish pause then exit splash
+      status.textContent = "Ready";
+      setTimeout(()=> {
+        panel.classList.add('hide');
+        // stop canvas if you want: window.__splash_bg.stop();
+        // remove from DOM
+        setTimeout(()=> document.querySelector('.splash-root')?.remove(), 600);
+      }, 600);
+    }
+  }
+
+  // start
+  // slight initial delay so logo draw is visible
+  setTimeout(step, 700);
+})();
+
+/* Accessibility: respect reduced motion preferences */
+(function(){
+  const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(isReduced){
+    // fast-forward animations: immediately show full progress
+    const pf = document.getElementById('progressFill');
+    const pt = document.getElementById('pctText');
+    const st = document.getElementById('statusText');
+    pf.style.width = '100%';
+    pt.textContent = '100%';
+    st.textContent = 'Ready';
+    setTimeout(()=> document.querySelector('.splash-root')?.remove(), 600);
+  }
+})();
+</script>
 </body>
 </html>
