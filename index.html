@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MediCare - Loading</title>
+    <title>NEXTPULSE - Loading</title>
     <style>
         * {
             margin: 0;
@@ -34,21 +34,20 @@
             overflow: hidden;
         }
         
-        /* Animated Background Elements */
+        /* Background bubbles */
         .bubble {
             position: absolute;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
             animation: float 8s infinite ease-in-out;
         }
-        
         .bubble:nth-child(1) { width: 100px; height: 100px; top: 20%; left: 15%; animation-delay: 0s; }
         .bubble:nth-child(2) { width: 70px; height: 70px; top: 70%; left: 20%; animation-delay: 1s; }
         .bubble:nth-child(3) { width: 120px; height: 120px; top: 40%; right: 15%; animation-delay: 2s; }
         .bubble:nth-child(4) { width: 80px; height: 80px; top: 65%; right: 20%; animation-delay: 3s; }
         .bubble:nth-child(5) { width: 60px; height: 60px; top: 15%; right: 25%; animation-delay: 4s; }
         
-        /* Main Content */
+        /* Logo Container */
         .logo-container {
             position: relative;
             width: 180px;
@@ -60,35 +59,36 @@
             z-index: 10;
         }
         
-        .medical-cross {
+        /* Pulse Logo */
+        .pulse-icon {
             width: 100px;
             height: 100px;
             animation: pulse 2s infinite ease-in-out;
+            filter: drop-shadow(0 0 6px rgba(0, 255, 255, 0.6));
         }
         
         .pulse-ring {
             position: absolute;
             width: 180px;
             height: 180px;
-            border: 3px solid rgba(255, 255, 255, 0.5);
+            border: 3px solid rgba(255, 255, 255, 0.4);
             border-radius: 50%;
             animation: ripple 3s infinite ease-out;
         }
-        
         .pulse-ring:nth-child(2) { animation-delay: 0.5s; }
         .pulse-ring:nth-child(3) { animation-delay: 1s; }
         
+        /* Text */
         .app-name {
             color: white;
             font-size: 42px;
             font-weight: 700;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             margin-bottom: 10px;
             text-align: center;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
             animation: fadeIn 1.5s ease-out;
         }
-        
         .tagline {
             color: rgba(255, 255, 255, 0.85);
             font-size: 18px;
@@ -99,25 +99,22 @@
             animation: fadeIn 1.8s ease-out;
         }
         
+        /* Progress Bar */
         .progress-container {
             width: 280px;
             height: 8px;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 4px;
             overflow: hidden;
-            position: relative;
             margin-top: 20px;
         }
-        
         .progress-bar {
-            position: absolute;
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, rgba(255,255,255,0.7), white);
+            background: linear-gradient(90deg, cyan, white);
             border-radius: 4px;
             animation: loading 3s ease-in-out forwards;
         }
-        
         .loading-text {
             color: rgba(255, 255, 255, 0.8);
             font-size: 16px;
@@ -126,25 +123,13 @@
             animation: fadePulse 2s infinite;
         }
         
-        .doctor-icon {
-            position: absolute;
-            bottom: 40px;
-            width: 100px;
-            height: 100px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="rgba(255,255,255,0.15)"><path d="M8 3v2H6v4h2v2h4V9h2V5h-2V3h-2m4 6v2h2v2h-2v2h-2v-2H8v-2h2V9h2m8-6h-5v2h5v16H3V5h5V3H3c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>');
-            background-repeat: no-repeat;
-            background-position: center;
-            animation: floatUpDown 4s infinite ease-in-out;
-        }
-        
         /* Animations */
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
         @keyframes ripple { 0% { transform: scale(0.5); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
-        @keyframes float { 0% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(10deg); } 100% { transform: translateY(0) rotate(0deg); } }
+        @keyframes float { 0% { transform: translateY(0); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0); } }
         @keyframes loading { 0% { width: 0%; } 30% { width: 40%; } 70% { width: 85%; } 100% { width: 100%; } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadePulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
-        @keyframes floatUpDown { 0% { transform: translateY(0); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -156,44 +141,39 @@
         <div class="bubble"></div>
         <div class="bubble"></div>
         
-        <!-- Medical logo with animation -->
+        <!-- Dark Fantasy Pulse Logo -->
         <div class="logo-container">
             <div class="pulse-ring"></div>
             <div class="pulse-ring"></div>
             <div class="pulse-ring"></div>
-            <!-- New SVG medical cross -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="medical-cross">
-                <circle cx="32" cy="32" r="30" fill="white" stroke="#2c5281" stroke-width="4"/>
-                <rect x="28" y="16" width="8" height="32" fill="#2c5281" rx="2"/>
-                <rect x="16" y="28" width="32" height="8" fill="#2c5281" rx="2"/>
+            <svg class="pulse-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+                <circle cx="32" cy="32" r="30" fill="none" stroke="cyan" stroke-width="3" opacity="0.6"/>
+                <polyline points="8,32 16,32 22,20 28,44 34,28 40,40 48,32 56,32"
+                    fill="none" stroke="cyan" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </div>
         
-        <h1 class="app-name">MediCare</h1>
-        <p class="tagline">Your Personal Health Assistant</p>
+        <h1 class="app-name">NEXTPULSE</h1>
+        <p class="tagline">Feel the Future</p>
         
         <div class="progress-container">
             <div class="progress-bar"></div>
         </div>
         
-        <p class="loading-text">Loading your medical resources...</p>
-        
-        <div class="doctor-icon"></div>
+        <p class="loading-text">Synchronizing futuristic vibes...</p>
     </div>
 
     <script>
-        // Simulate app loading
         setTimeout(function() {
-            document.querySelector('.loading-text').textContent = "Initializing complete!";
-            document.body.style.backgroundColor = "#f8f9fa";
+            document.querySelector('.loading-text').textContent = "Initialization complete!";
+            document.body.style.backgroundColor = "#0a0f1c";
             
-            // In a real app, you would redirect to the main app page
             setTimeout(function() {
                 document.querySelector('.splash-container').innerHTML = `
                     <div style="text-align: center; animation: fadeIn 1s;">
-                        <h1 style="color: #2c5281; font-size: 36px; margin-bottom: 20px;">Welcome to MediCare</h1>
-                        <p style="color: #555; font-size: 18px; max-width: 350px;">
-                            Your healthcare journey starts here. Redirecting to dashboard...
+                        <h1 style="color: cyan; font-size: 36px; margin-bottom: 20px;">Welcome to NEXTPULSE</h1>
+                        <p style="color: #aaa; font-size: 18px; max-width: 350px;">
+                            Your journey into the future starts now...
                         </p>
                     </div>
                 `;
