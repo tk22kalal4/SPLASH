@@ -12,15 +12,14 @@
         }
         
         body {
-    background: linear-gradient(135deg, #23497A 0%, #3064A5 40%, #3FA7F5 100%);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    overflow: hidden;
-}
-
+            background: linear-gradient(135deg, #1B2B40 0%, #23497A 50%, #3064A5 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
         
         .splash-container {
             position: relative;
@@ -39,7 +38,7 @@
         .bubble {
             position: absolute;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.04);
             animation: float 8s infinite ease-in-out;
         }
         .bubble:nth-child(1) { width: 100px; height: 100px; top: 20%; left: 15%; animation-delay: 0s; }
@@ -65,14 +64,14 @@
             width: 100px;
             height: 100px;
             animation: pulse 2s infinite ease-in-out;
-            filter: drop-shadow(0 0 6px rgba(0, 255, 255, 0.6));
+            filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.8));
         }
         
         .pulse-ring {
             position: absolute;
             width: 180px;
             height: 180px;
-            border: 3px solid rgba(255, 255, 255, 0.4);
+            border: 3px solid rgba(0, 255, 255, 0.3);
             border-radius: 50%;
             animation: ripple 3s infinite ease-out;
         }
@@ -87,11 +86,11 @@
             letter-spacing: 2px;
             margin-bottom: 10px;
             text-align: center;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
             animation: fadeIn 1.5s ease-out;
         }
         .tagline {
-            color: rgba(255, 255, 255, 0.85);
+            color: rgba(200, 230, 255, 0.85);
             font-size: 18px;
             font-weight: 300;
             margin-bottom: 40px;
@@ -104,7 +103,7 @@
         .progress-container {
             width: 280px;
             height: 8px;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 4px;
             overflow: hidden;
             margin-top: 20px;
@@ -112,12 +111,12 @@
         .progress-bar {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, cyan, white);
+            background: linear-gradient(90deg, cyan, #00bfff);
             border-radius: 4px;
             animation: loading 3s ease-in-out forwards;
         }
         .loading-text {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(200, 230, 255, 0.8);
             font-size: 16px;
             margin-top: 20px;
             letter-spacing: 0.5px;
@@ -167,7 +166,7 @@
     <script>
         setTimeout(function() {
             document.querySelector('.loading-text').textContent = "Initialization complete!";
-            document.body.style.backgroundColor = "#0a0f1c";
+            document.body.style.background = "linear-gradient(135deg, #0a0f1c 0%, #1B2B40 50%, #23497A 100%)";
             
             setTimeout(function() {
                 document.querySelector('.splash-container').innerHTML = `
