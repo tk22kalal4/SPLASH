@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextPulse Medical App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #162433 0%, #2c5281 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            color: white;
+        }
+        
+        .splash-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+        
+        /* Animated Background Elements */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 8s infinite ease-in-out;
+            z-index: 0;
+        }
+        
+        .bubble:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            left: 15%;
+            animation-delay: 0s;
+        }
+        
+        .bubble:nth-child(2) {
+            width: 70px;
+            height: 70px;
+            top: 70%;
+            left: 20%;
+            animation-delay: 1s;
+        }
+        
+        .bubble:nth-child(3) {
+            width: 120px;
+            height: 120px;
+            top: 40%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+        
+        .bubble:nth-child(4) {
+            width: 80px;
+            height: 80px;
+            top: 65%;
+            right: 20%;
+            animation-delay: 3s;
+        }
+        
+        .bubble:nth-child(5) {
+            width: 60px;
+            height: 60px;
+            top: 15%;
+            right: 25%;
+            animation-delay: 4s;
+        }
+        
+        /* Logo Container */
+        .logo-container {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+        
+        .skull-icon {
+            font-size: 100px;
+            color: white;
+            /* No animation properties */
+        }
+        
+        .pulse-ring {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: ripple 3s infinite ease-out;
+            z-index: -1;
+        }
+        
+        .pulse-ring:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+        
+        .pulse-ring:nth-child(3) {
+            animation-delay: 1s;
+        }
+        
+        .app-name {
+            color: white;
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-align: center;
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1.5s ease-out, pulseGlow 2s infinite alternate;
+        }
+        
+        .tagline {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 18px;
+            font-weight: 300;
+            margin-bottom: 40px;
+            text-align: center;
+            max-width: 300px;
+            animation: fadeIn 1.8s ease-out;
+        }
+        
+        .progress-container {
+            width: 280px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            margin-top: 20px;
+        }
+        
+        .progress-bar {
+            position: absolute;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, rgba(255,255,255,0.7), white);
+            border-radius: 4px;
+            animation: loading 4s linear forwards;
+        }
+        
+        .loading-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            margin-top: 20px;
+            letter-spacing: 0.5px;
+            animation: fadePulse 2s infinite;
+        }
+        
+        .medical-icon {
+            position: absolute;
+            bottom: 40px;
+            width: 100px;
+            height: 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="rgba(255,255,255,0.15)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 16h-2v-6h2v6zm0-8h-2V6h2v4zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V6h2v4z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
+            animation: floatUpDown 4s infinite ease-in-out;
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes ripple {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        
+        @keyframes loading {
+            0% { width: 0%; }
+            25% { width: 30%; }
+            50% { width: 65%; }
+            75% { width: 90%; }
+            100% { width: 100%; }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadePulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        
+        @keyframes floatUpDown {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0); }
+        }
+        
+        @keyframes pulseGlow {
+            0% { text-shadow: 0 0 5px rgba(255,255,255,0.5); }
+            100% { text-shadow: 0 0 15px rgba(255,255,255,0.8), 0 0 25px rgba(255,255,255,0.4); }
+        }
+    </style>
+</head>
+<body>
+    <div class="splash-container">
+        <!-- Animated background bubbles -->
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        
+        <!-- Logo with animation -->
+        <div class="logo-container">
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring"></div>
+            <i class="fa-solid fa-skull-crossbones skull-icon"></i>
+        </div>
+        
+        <h1 class="app-name">NEXTPULSE</h1>
+        <p class="tagline">Advanced Healthcare Solutions</p>
+        
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+        
+        <p class="loading-text">Initializing medical systems...</p>
+        
+        <div class="medical-icon"></div>
+        
+        <!-- Audio element for heartbeat sound -->
+        <audio id="heartbeat-sound" loop>
+            <source src="https://assets.mixkit.co/sfx/preview/mixkit-single-heartbeat-764.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <script>
+        // Audio handling
+        const heartbeatSound = document.getElementById('heartbeat-sound');
+        
+        // Play audio when user interacts with the page
+        document.body.addEventListener('click', function() {
+            heartbeatSound.play().catch(e => console.log("Audio play error:", e));
+        });
+        
+        // Auto-play audio on load
+        window.addEventListener('load', function() {
+            // In a real app, this would be triggered by a user gesture
+            // For demo purposes, we'll simulate a user interaction
+            setTimeout(() => {
+                heartbeatSound.play().catch(e => console.log("Audio auto-play blocked. Click to play."));
+            }, 500);
+        });
+        
+        // Simulate app loading for exactly 4 seconds
+        setTimeout(function() {
+            document.querySelector('.loading-text').textContent = "System ready!";
+            document.querySelector('.app-name').style.animation = "pulseGlow 1s infinite alternate";
+            
+            // Change background and animate out
+            document.body.style.background = "linear-gradient(135deg, #2c5281 0%, #3a6ea5 100%)";
+            
+            // In a real app, you would redirect to the main app page
+            setTimeout(function() {
+                heartbeatSound.pause();
+                document.querySelector('.splash-container').innerHTML = `
+                    <div style="text-align: center; animation: fadeIn 1s;">
+                        <h1 style="color: white; font-size: 42px; margin-bottom: 30px; text-shadow: 0 0 20px rgba(255,255,255,0.5);">Welcome to NextPulse</h1>
+                        <i class="fa-solid fa-skull-crossbones" style="font-size: 100px; color: white; margin-bottom: 30px;"></i>
+                        <p style="color: rgba(255,255,255,0.9); font-size: 20px; max-width: 350px; line-height: 1.6;">
+                            Your advanced healthcare platform is ready
+                        </p>
+                    </div>
+                `;
+            }, 1000);
+        }, 4000); // Exactly 4 seconds
+    </script>
+</body>
+</html>
